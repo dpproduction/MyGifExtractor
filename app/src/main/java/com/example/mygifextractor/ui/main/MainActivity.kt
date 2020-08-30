@@ -3,7 +3,7 @@ package com.example.mygifextractor.ui.main
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import com.example.mygifextractor.R
-import com.example.mygifextractor.ui.mygifextractor.SectionsPagerAdapter
+import com.example.mygifextractor.ui.SectionsPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_main.*
 

@@ -29,15 +29,12 @@ abstract class GifStorageViewModel : ViewModel() {
         get() = _property
 
     init {
-        println("baseViewModel initialized")
         isAtFirstPage.value = true
-        fetchData()
     }
 
     fun onNext() {
         if (showFromCache()) {
             _property.value = cache[++currentPage]
-            println("onNext false class $javaClass")
             isAtFirstPage.value = false
             _status.value = DevLifeApiStatus.DONE
         } else {
@@ -52,14 +49,12 @@ abstract class GifStorageViewModel : ViewModel() {
             }
             _property.value = cache[currentPage]
         }
-        println("onBack isAtFirstPage ${currentPage == 0} class $javaClass")
         isAtFirstPage.value = currentPage == 0
         _status.value = DevLifeApiStatus.DONE
     }
 
-    private fun fetchData() = viewModelScope.launch {
+    fun fetchData() = viewModelScope.launch {
         try {
-            println("fetchData   isAtFirstPage.value ${  isAtFirstPage.value }")
             _status.value = DevLifeApiStatus.LOADING
             val data = requestGifs(++queryPageNumber)
             if (data.isEmpty()) {
@@ -70,7 +65,6 @@ abstract class GifStorageViewModel : ViewModel() {
                 _status.value = DevLifeApiStatus.DONE
                 currentPage++
                 if (currentPage != 0) {
-                    println("fetchData isAtFirstPage false class $javaClass")
                     isAtFirstPage.value = false
                 }
             }
@@ -85,6 +79,5 @@ abstract class GifStorageViewModel : ViewModel() {
         cache.isNotEmpty() && currentPage < cache.size - 1
 
     abstract suspend fun requestGifs (pagination: Int): List<DevLifeProperty>
-
 
 }

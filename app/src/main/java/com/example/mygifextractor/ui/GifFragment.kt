@@ -1,4 +1,4 @@
-package com.example.mygifextractor.ui.mygifextractor
+package com.example.mygifextractor.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,16 +10,13 @@ import com.example.mygifextractor.databinding.FragmentGifBinding
 import com.example.mygifextractor.viewModels.GifExtractViewModelFactory
 import com.example.mygifextractor.viewModels.GifViewModel
 
-
 class GifFragment : Fragment() {
 
     private lateinit var viewModel: GifViewModel
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val section = arguments?.getString(ARG_SECTION_LABEL, null)
-        println("viewModel will be instantiated with section $section")
         val viewModelFactory = GifExtractViewModelFactory(section)
         viewModel = ViewModelProvider(
             this, viewModelFactory
@@ -39,14 +36,16 @@ class GifFragment : Fragment() {
         return binding.root
     }
 
-    companion object {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private const val ARG_SECTION_NUMBER = "section_number"
-        private const val ARG_SECTION_LABEL = "section_label"
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (savedInstanceState == null) {
+            viewModel.fetchData()
+        }
+    }
 
+    companion object {
+
+        private const val ARG_SECTION_LABEL = "section_label"
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -57,19 +56,10 @@ class GifFragment : Fragment() {
             return GifFragment().apply {
                 arguments = Bundle().apply {
                     when (sectionNumber) {
-                        1 -> putInt(ARG_SECTION_NUMBER, sectionNumber)
-                        2 -> {
-                            putInt(ARG_SECTION_NUMBER, sectionNumber)
-                            putString(ARG_SECTION_LABEL, "latest")
-                        }
-                        3 -> {
-                            putInt(ARG_SECTION_NUMBER, sectionNumber)
-                            putString(ARG_SECTION_LABEL, "top")
-                        }
-                        4 -> {
-                            putInt(ARG_SECTION_NUMBER, sectionNumber)
-                            putString(ARG_SECTION_LABEL, "hot")
-                        }
+                        0 -> putString(ARG_SECTION_LABEL, "")
+                        1 -> putString(ARG_SECTION_LABEL, "latest")
+                        2 -> putString(ARG_SECTION_LABEL, "top")
+                        3 -> putString(ARG_SECTION_LABEL, "hot")
                     }
                 }
             }

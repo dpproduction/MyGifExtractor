@@ -1,4 +1,4 @@
-package com.example.mygifextractor.ui.mygifextractor
+package com.example.mygifextractor.ui
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -10,7 +10,7 @@ private const val NUM_PAGES = 4
 class SectionsPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 
     override fun createFragment(position: Int): Fragment {
-        return GifFragment.newInstance(position + 1)
+        return GifFragment.newInstance(position)
     }
 
     override fun getItemCount(): Int {
